@@ -10,11 +10,13 @@
   "modules-right": [
     "tray",
     "cpu",
+    "temperature",
     "memory",
     "network",
     "custom/displays",
     "custom/screenshot",
     "bluetooth",
+    "backlight",
     "sway/language",
     "pulseaudio",
     "power-profiles-daemon",
@@ -25,7 +27,7 @@
     // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
     "format": " {status}",
     "format-disabled": "", // an empty format will hide the module
-    "format-connected": " {num_connections} connected",
+    "format-connected": " {num_connections}",
     "tooltip-format": "{controller_alias}\t{controller_address}",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
@@ -56,7 +58,7 @@
     "on-click": "nwg-displays"
   },
   "custom/screenshot": {
-    "format": "📸",
+    "format": "",
     "on-click": "sway-screenshot -m region --clipboard-only",
     "tooltip": false
   },
@@ -105,9 +107,9 @@
     "format-icons": ["", "", "", "", ""]
   },
   "network": {
-    "format-wifi": "{essid} ",
+    "format-wifi": "",
     "format-ethernet": "{ipaddr}/{cidr} ",
-    "tooltip-format": "{ifname} via {gwaddr} ",
+    "tooltip-format": "{essid} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected ⚠",
     // "format-alt": "{ifname}: {ipaddr}/{cidr}",
