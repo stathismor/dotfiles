@@ -28,8 +28,7 @@ set $term alacritty
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /home/stathis/Pictures/walls/disco-elysium/ouo0vm6gn9f91.png fill
+output * bg /home/stathis/Pictures/wallpapers/moon.png fill
 
 #
 # Example configuration:
@@ -40,15 +39,15 @@ output * bg /home/stathis/Pictures/walls/disco-elysium/ouo0vm6gn9f91.png fill
 
 
 # Autotiling
-exec_always autotiling -w 1 3 5 7 9
+exec autotiling
 
 # Window borders
-default_border pixel 1
+default_border pixel 3
+client.focused "#F1FAEE" "#F1FAEE" "#EB5E28" "#F1FAEE"
 
 # UI tweaks
 gaps inner 4
 gaps outer 4
-
 
 ### Idle configuration
 #
