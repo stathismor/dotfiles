@@ -96,7 +96,7 @@ input "1739:53160:SYNA802E:00_06CB:CFA8_Touchpad" {
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym $mod+Return exec ~/.config/sway/scripts/term-here
 
     # Kill focused window
     bindsym $mod+Shift+q kill

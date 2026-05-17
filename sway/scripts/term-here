@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Launch alacritty in the cwd of the shell running inside the focused window.
+set -euo pipefail
+
+pid=$(swaymsg -t get_tree | jq 'recurse(.nodes[]?, .floating_nodes[]?) | select(.focused == true) | .pid // empty')
+
+cwd=""
+if [[ -n "$pid" ]]; then
+    current=$pid
+    while child=$(pgrep -n -P "$current" 2>/dev/null) && [[ -n "$child" ]]; do
+        current=$child
+    done
+    cwd=$(readlink "/proc/$current/cwd" 2>/dev/null || true)
+fi
+
+exec alacritty ${cwd:+--working-directory "$cwd"}
