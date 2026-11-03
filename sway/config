@@ -274,3 +274,6 @@ bar {
 exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 include /etc/sway/config.d/*
+
+# Meld 3.24 (GTK4) no longer restores maximized state on Wayland; open it fullscreen
+for_window [app_id="org.gnome.Meld"] fullscreen enable

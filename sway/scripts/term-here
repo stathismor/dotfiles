@@ -13,4 +13,11 @@ if [[ -n "$pid" ]]; then
     cwd=$(readlink "/proc/$current/cwd" 2>/dev/null || true)
 fi
 
+# Ignore stale/transient cwds. A /proc/<pid>/... path vanishes when that
+# process exits, so passing it makes alacritty fail with "Invalid working
+# directory"; only forward a path that still resolves to a real directory.
+if [[ -z "$cwd" || "$cwd" == /proc/* || ! -d "$cwd" ]]; then
+    cwd=""
+fi
+
 exec alacritty ${cwd:+--working-directory "$cwd"}
