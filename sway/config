@@ -20,7 +20,7 @@ set $right l
 set $menu "rofi -show drun -show-icons"
 
 # Your file manager
-set $filemanager nemo
+set $filemanager nautilus
 
 # Your terminal
 set $term alacritty
@@ -252,8 +252,8 @@ bindsym $mod+r mode "resize"
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+    # Screenshot a selected region to the clipboard
+    bindsym Print exec sway-screenshot -m region --clipboard-only
     # Bring a lost cursor back to the centre of the focused screen
     bindsym $mod+Shift+m exec ~/.config/sway/scripts/cursor-home
 
