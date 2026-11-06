@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Arrange displays in nwg-displays, then save the resulting live layout as the
+# kanshi profile for the set of monitors currently connected.
+set -euo pipefail
+
+config="$HOME/.config/kanshi/config"
+
+# nwg-displays' own sway-format file is not loaded by sway; keep it out of dotfiles.
+nwg-displays -o "${XDG_RUNTIME_DIR:-/tmp}/nwg-displays-outputs"
+
+outputs=$(swaymsg -t get_outputs)
+
+# Internal panels have generic descriptions, so match them by connector; match
+# external monitors by make/model/serial so any cable or port works.
+read -r -d '' jq_profile <<'JQ' || true
+def criteria: if (.name | startswith("eDP")) then .name else "\(.make) \(.model) \(.serial)" end;
+def slug: if (.name | startswith("eDP")) then .name else .model end | gsub("[^A-Za-z0-9_-]+"; "_");
+"profile \(map(slug) | join("+")) {",
+(.[] | if .active then
+  "    output \"\(criteria)\" enable mode \(.current_mode.width)x\(.current_mode.height)@\(.current_mode.refresh / 1000)Hz position \(.rect.x),\(.rect.y) scale \(.scale) transform \(.transform)"
+else
+  "    output \"\(criteria)\" disable"
+end),
+"    exec ~/.config/sway/scripts/cursor-home",
+"}"
+JQ
+
+profile=$(jq -r "$jq_profile" <<<"$outputs")
+name=$(head -1 <<<"$profile" | awk '{print $2}')
+
+tmp=$(mktemp "$config.XXXXXX")
+if [[ -f "$config" ]]; then
+    awk -v name="$name" '
+        $1 == "profile" && $2 == name { skip = 1; next }
+        skip && /^}/ { skip = 0; next }
+        !skip
+    ' "$config" | cat -s | sed '${/^$/d;}' >"$tmp"
+fi
+if [[ -s "$tmp" ]]; then
+    echo >>"$tmp"
+fi
+echo "$profile" >>"$tmp"
+mv "$tmp" "$config"
+
+kanshictl reload
+notify-send "Displays" "Saved layout as kanshi profile $name"

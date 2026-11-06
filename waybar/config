@@ -68,7 +68,7 @@
   },
   "custom/displays": {
     "format": "",
-    "on-click": "nwg-displays"
+    "on-click": "~/.config/sway/scripts/displays"
   },
   "custom/screenshot": {
     "format": "",

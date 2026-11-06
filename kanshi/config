@@ -1,0 +1,10 @@
+profile eDP-1 {
+    output "eDP-1" enable mode 1920x1200@60.001Hz position 0,0 scale 1.0 transform normal
+    exec ~/.config/sway/scripts/cursor-home
+}
+
+profile eDP-1+DELL_S2722DZ {
+    output "eDP-1" enable mode 1920x1200@60.001Hz position 0,919 scale 1.0 transform normal
+    output "Dell Inc. DELL S2722DZ G6HB7H3" enable mode 2560x1440@59.951Hz position 1920,0 scale 1.0 transform normal
+    exec ~/.config/sway/scripts/cursor-home
+}

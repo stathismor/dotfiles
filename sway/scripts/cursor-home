@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Warp the pointer to the centre of the focused output (falling back to the
+# first active one). Rescues a cursor stranded on an output that was removed.
+set -euo pipefail
+
+read -r x y < <(swaymsg -t get_outputs | jq -r '
+    (map(select(.active and .focused)) + map(select(.active)))[0].rect
+    | "\(.x + .width / 2 | floor) \(.y + .height / 2 | floor)"')
+
+swaymsg -q seat seat0 cursor set "$x" "$y"
